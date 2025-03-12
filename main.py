@@ -118,12 +118,32 @@ class Boid:
 # Function to normalize a vector
 def normalize(v):
     mag_v = mag(v)
+
     if mag_v > 0:
         return v / mag_v
+
     return vector(0, 0, 0)
 
 # Create boids
 boids = [Boid() for _ in range(NUM_BOIDS)]
+
+# Coordinates of the cube's corners
+vertices = [
+    vector(POSITIVE_LIMIT, POSITIVE_LIMIT, POSITIVE_LIMIT), vector(POSITIVE_LIMIT, POSITIVE_LIMIT, NEGATIVE_LIMIT),
+    vector(POSITIVE_LIMIT, NEGATIVE_LIMIT, POSITIVE_LIMIT), vector(POSITIVE_LIMIT, NEGATIVE_LIMIT, NEGATIVE_LIMIT),
+    vector(NEGATIVE_LIMIT, POSITIVE_LIMIT, POSITIVE_LIMIT), vector(NEGATIVE_LIMIT, POSITIVE_LIMIT, NEGATIVE_LIMIT),
+    vector(NEGATIVE_LIMIT, NEGATIVE_LIMIT, POSITIVE_LIMIT), vector(NEGATIVE_LIMIT, NEGATIVE_LIMIT, NEGATIVE_LIMIT)
+]
+
+# Draw lines around the cube by connecting the vertices
+edges = [
+    (0, 1), (0, 2), (0, 4), (1, 3), (1, 5), (2, 3), (2, 6),
+    (3, 7), (4, 5), (4, 6), (5, 7), (6, 7)
+]
+
+# Create lines with red color
+for edge in edges:
+    curve(pos=[vertices[edge[0]], vertices[edge[1]]], radius=0.1, color=color.red)
 
 # Animation loop
 while True:
