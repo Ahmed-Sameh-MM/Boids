@@ -18,9 +18,12 @@ class Boid:
 
     def update(self):
         self.velocity += self.acceleration
-        # Limit speed
-        if mag(self.velocity) > MAX_SPEED:
+        # Limit speed between MIN_SPEED and MAX_SPEED
+        speed = mag(self.velocity)
+        if speed > MAX_SPEED:
             self.velocity = norm(self.velocity) * MAX_SPEED
+        elif speed < MIN_SPEED and speed > 0:  # Only apply minimum speed if not completely stopped
+            self.velocity = norm(self.velocity) * MIN_SPEED
         self.position += self.velocity
         self.bird_object.pos = self.position
         self.bird_object.axis = norm(self.velocity) * 0.5  # Update axis to match direction
@@ -31,11 +34,11 @@ class Boid:
         if self.position.x < NEGATIVE_LIMIT: self.position.x = POSITIVE_LIMIT
         if self.position.x > POSITIVE_LIMIT: self.position.x = NEGATIVE_LIMIT
 
-        if self.position.y < NEGATIVE_LIMIT: self.position.y = POSITIVE_LIMIT
-        if self.position.y > POSITIVE_LIMIT: self.position.y = NEGATIVE_LIMIT
+        if self.position.y < NEGATIVE_Y_LIMIT: self.position.y = POSITIVE_Y_LIMIT
+        if self.position.y > POSITIVE_Y_LIMIT: self.position.y = NEGATIVE_Y_LIMIT
 
-        if self.position.z < NEGATIVE_LIMIT: self.position.z = POSITIVE_LIMIT
-        if self.position.z > POSITIVE_LIMIT: self.position.z = NEGATIVE_LIMIT
+        if self.position.z < NEGATIVE_Z_LIMIT: self.position.z = POSITIVE_Z_LIMIT
+        if self.position.z > POSITIVE_Z_LIMIT: self.position.z = NEGATIVE_Z_LIMIT
 
     def flock(self, boids):
         separation = self.separate(boids)
